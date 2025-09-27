@@ -1,4 +1,4 @@
-package nandoshop.shop.user_service.config;
+package nandoshop.shop.user_service.infrastructure.config;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;

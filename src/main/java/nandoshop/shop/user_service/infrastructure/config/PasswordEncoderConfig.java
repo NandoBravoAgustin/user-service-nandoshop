@@ -1,4 +1,4 @@
-package nandoshop.shop.user_service.config;
+package nandoshop.shop.user_service.infrastructure.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

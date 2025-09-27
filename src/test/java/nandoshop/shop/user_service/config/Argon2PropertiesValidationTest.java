@@ -3,6 +3,7 @@ package nandoshop.shop.user_service.config;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import nandoshop.shop.user_service.infrastructure.config.Argon2Properties;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
