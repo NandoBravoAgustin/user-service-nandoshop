@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # <-- cambiar de ubuntu-latest a self-hosted
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -41,5 +42,8 @@ jobs:
         env:
           KUBECONFIG: /home/runner/kubeconfig
         run: |
+          echo "⏳ Deploying user-service..."
           kubectl get nodes
           kubectl apply -f k8s/user-service.yaml --validate=false
+          kubectl rollout status deployment/user-service
+          echo "✅ Deployment finished"
