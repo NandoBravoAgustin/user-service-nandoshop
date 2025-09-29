@@ -1,7 +1,7 @@
 package nandoshop.shop.user_service.application.service;
 
-import nandoshop.shop.user_service.application.port.in.RegisterUserCommand;
-import nandoshop.shop.user_service.application.port.in.RegisterUserUseCase;
+import nandoshop.shop.user_service.application.port.in.command.RegisterUserCommand;
+import nandoshop.shop.user_service.application.port.in.useCase.RegisterUserUseCase;
 import nandoshop.shop.user_service.application.port.out.UserRepositoryPort;
 import nandoshop.shop.user_service.domain.exception.EmailAlreadyRegisteredException;
 import nandoshop.shop.user_service.domain.model.User;
