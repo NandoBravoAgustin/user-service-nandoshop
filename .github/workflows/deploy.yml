@@ -38,5 +38,7 @@ jobs:
           chmod 600 ~/.kube/config
 
       - name: Deploy to Kubernetes
+        env:
+          KUBECONFIG: /home/runner/kubeconfig
         run: |
           kubectl apply -f k8s/user-service.yaml --validate=false
