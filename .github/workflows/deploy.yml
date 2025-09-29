@@ -37,13 +37,7 @@ jobs:
           version: 'latest'
 
       - name: Deploy to Kubernetes
+        env:
+          KUBECONFIG: $PWD/kubeconfig
         run: |
-          # Decodificar el secret Base64 a un archivo temporal
-          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 --decode > kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
-          
-          # Aplicar los YAMLs
           kubectl apply -f k8s/user-service.yaml
-          
-          # Borrar el kubeconfig temporal
-          rm kubeconfig
