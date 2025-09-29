@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-user-service
+  template:
+    metadata:
+      labels:
+        app: be-user-service
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: be-user-service
+          image: ghcr.io/nandobravoagustin/be-user-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "test"
+            - name: MYSQL_URI_TEST
+              value: "jdbc:mysql://92.113.34.177:3306/ns-user-test"
+            - name: MYSQL_USERNAME_TEST
+              value: "ns_user_test"
+            - name: MYSQL_PASSWORD_TEST
+              value: "2103qx8ud4f3"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-user-service
+spec:
+  selector:
+    app: be-user-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
