@@ -26,14 +26,17 @@ jobs:
 
       - name: Build Docker image
         run: |
+          set -ex  # mostrar cada comando y salir si hay error
           docker build -t ghcr.io/nandobravoagustin/be-user-service:latest .
 
       - name: Push Docker image
         run: |
+          set -ex
           docker push ghcr.io/nandobravoagustin/be-user-service:latest
 
       - name: Set up kubeconfig
         run: |
+          set -ex
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
@@ -42,8 +45,10 @@ jobs:
         env:
           KUBECONFIG: /home/runner/kubeconfig
         run: |
+          set -ex
           echo "⏳ Deploying user-service..."
           kubectl get nodes
           kubectl apply -f k8s/user-service.yaml --validate=false
-          kubectl rollout status deployment/user-service
-          echo "✅ Deployment finished"
+          echo "🔄 Waiting for rollout..."
+          kubectl rollout status deployment/user-service --timeout=180s
+          echo "✅ Deployment finished successfully"
