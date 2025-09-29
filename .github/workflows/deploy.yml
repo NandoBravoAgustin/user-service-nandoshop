@@ -50,5 +50,6 @@ jobs:
           kubectl get nodes
           kubectl apply -f k8s/user-service.yaml --validate=false
           echo "🔄 Waiting for rollout..."
-          kubectl rollout status deployment/user-service --timeout=180s
+          kubectl rollout status deployment/be-user-service --timeout=180s
           echo "✅ Deployment finished successfully"
+      
