@@ -41,4 +41,5 @@ jobs:
         env:
           KUBECONFIG: /home/runner/kubeconfig
         run: |
+          kubectl get nodes
           kubectl apply -f k8s/user-service.yaml --validate=false
