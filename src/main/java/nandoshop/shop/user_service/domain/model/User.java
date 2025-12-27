@@ -7,10 +7,10 @@ public class User {
     private String email;
     private String password;
     private String name;
+    private boolean emailVerified = false;
 
     private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-
+            Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     // Para usuarios nuevos
     public User(String email, String password, String name) {
         validateEmail(email);
@@ -20,6 +20,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.emailVerified = emailVerified;
     }
     // Para usuarios existentes
     public User(Long id, String email, String password, String name) {
@@ -53,5 +54,9 @@ public class User {
 
     public String getPasswordForPersistence() {
         return password;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
     }
 }

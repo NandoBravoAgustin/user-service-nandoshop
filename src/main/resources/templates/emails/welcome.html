@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: layout(~{::content})}">
+<body>
+<!-- Este fragmento llamado "content" será pasado como parámetro al layout -->
+<div th:fragment="content">
+    <p>Hola <strong th:text="${username}">Usuario</strong>,</p>
+    <p>¡Bienvenido a nuestra plataforma!</p>
+    <p>Estamos felices de tenerte con nosotros.</p>
+</div>
+</body>
+</html>

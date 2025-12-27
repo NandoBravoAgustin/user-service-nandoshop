@@ -7,19 +7,20 @@ import nandoshop.shop.user_service.domain.model.User;
 import nandoshop.shop.user_service.infrastructure.adapter.in.dto.response.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class RegisterUserServiceTest {
     private UserRepositoryPort userRepository;
-    private PasswordEncoder passwordEncoder;
+    private Argon2PasswordEncoder passwordEncoder;
     private RegisterUserService registerUserService;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepositoryPort.class);
-        passwordEncoder = mock(PasswordEncoder.class);
+        passwordEncoder = mock(Argon2PasswordEncoder.class);
         registerUserService = new RegisterUserService(userRepository, passwordEncoder);
     }
 
@@ -31,8 +32,7 @@ public class RegisterUserServiceTest {
         RegisterUserCommand command = new RegisterUserCommand(
                 "test@example.com",
                 "password123",
-                "Nando"
-        );
+                "Nando");
 
         when(userRepository.existsByEmail(command.email())).thenReturn(false);
         when(passwordEncoder.encode(command.rawPassword())).thenReturn("encodedPassword");
@@ -54,6 +54,7 @@ public class RegisterUserServiceTest {
         verify(passwordEncoder).encode(command.rawPassword());
         verify(userRepository).save(any(User.class));
     }
+
     // Test que verifica que se lance una excepción cuando el email ya existe
     // Comprueba que no se guarde el usuario ni se codifique la contraseña
     @Test
@@ -62,8 +63,7 @@ public class RegisterUserServiceTest {
         RegisterUserCommand command = new RegisterUserCommand(
                 "test@example.com",
                 "password123",
-                "Nando"
-        );
+                "Nando");
 
         when(userRepository.existsByEmail(command.email())).thenReturn(true);
 

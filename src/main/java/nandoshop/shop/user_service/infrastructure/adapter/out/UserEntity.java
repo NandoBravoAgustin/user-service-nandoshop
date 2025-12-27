@@ -17,12 +17,12 @@ public class UserEntity {
     private String email;
     private String password;
     private String name;
-
+    private boolean emailVerified = false;
     // ✅ Constructor vacío necesario para JPA
     public UserEntity() {}
 
     // ✅ Constructor con todos los campos (útil para conversiones)
-    public UserEntity(Long id, String email, String password, String name) {
+    public UserEntity(Long id, String email, String password, String name, boolean emailVerified) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -40,7 +40,8 @@ public class UserEntity {
                 user.getId(),
                 user.getEmail(),
                 user.getPasswordForPersistence(),
-                user.getName()
+                user.getName(),
+                false
         );
     }
 }

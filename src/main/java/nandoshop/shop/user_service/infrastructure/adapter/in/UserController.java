@@ -52,5 +52,9 @@ public class UserController {
         );
         return ResponseEntity.ok(registerUserUseCase.register(command));
     }
-
+    @PostMapping("/send")
+    public ResponseEntity<Void> verifyEmail(@RequestBody String token) {
+        // Lógica para verificar el email usando el token
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,6 +1,5 @@
 package nandoshop.shop.user_service.infrastructure.config;
 
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +24,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/pingpong", "/api/v1/product-service/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/support/welcome").permitAll()
+                        .requestMatchers("/api/v1/support/password-reset").permitAll()
+                        .requestMatchers("/api/v1/support/verify-email").permitAll()
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
