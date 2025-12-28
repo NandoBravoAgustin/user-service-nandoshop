@@ -7,7 +7,6 @@ import nandoshop.shop.user_service.domain.exception.EmailAlreadyRegisteredExcept
 import nandoshop.shop.user_service.domain.model.User;
 import nandoshop.shop.user_service.domain.service.EmailService;
 import nandoshop.shop.user_service.infrastructure.adapter.in.dto.response.UserResponse;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +17,13 @@ public class RegisterUserService implements RegisterUserUseCase {
     private final Argon2PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    public RegisterUserService(UserRepositoryPort userRepository, Argon2PasswordEncoder passwordEncoder, EmailService emailService) {
+    public RegisterUserService(UserRepositoryPort userRepository, Argon2PasswordEncoder passwordEncoder,
+            EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
     }
 
-    @Async
     @Override
     public UserResponse register(RegisterUserCommand command) {
         if (userRepository.existsByEmail(command.email())) {
@@ -34,8 +33,7 @@ public class RegisterUserService implements RegisterUserUseCase {
         User user = new User(
                 command.email(),
                 passwordEncoder.encode(command.rawPassword()),
-                command.name()
-        );
+                command.name());
 
         User saved = userRepository.save(user);
 

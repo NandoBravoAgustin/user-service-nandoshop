@@ -24,4 +24,13 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
         UserEntity savedEntity = repository.save(entity);
         return savedEntity.toDomain();
     }
+
+    @Override
+    public User findByEmail(String email) {
+        UserEntity entity = repository.findByEmail(email);
+        if (entity == null) {
+            return null;
+        }
+        return entity.toDomain();
+    }
 }

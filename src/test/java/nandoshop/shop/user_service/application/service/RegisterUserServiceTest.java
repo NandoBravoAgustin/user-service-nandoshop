@@ -5,23 +5,25 @@ import nandoshop.shop.user_service.application.port.out.UserRepositoryPort;
 import nandoshop.shop.user_service.domain.exception.EmailAlreadyRegisteredException;
 import nandoshop.shop.user_service.domain.model.User;
 import nandoshop.shop.user_service.infrastructure.adapter.in.dto.response.UserResponse;
+import nandoshop.shop.user_service.domain.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class RegisterUserServiceTest {
     private UserRepositoryPort userRepository;
     private Argon2PasswordEncoder passwordEncoder;
+    private EmailService emailService;
     private RegisterUserService registerUserService;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepositoryPort.class);
         passwordEncoder = mock(Argon2PasswordEncoder.class);
-        registerUserService = new RegisterUserService(userRepository, passwordEncoder);
+        emailService = mock(EmailService.class);
+        registerUserService = new RegisterUserService(userRepository, passwordEncoder, emailService);
     }
 
     // Test que verifica el registro exitoso de un usuario

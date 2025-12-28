@@ -1,9 +1,12 @@
 package nandoshop.shop.user_service.infrastructure.adapter.out;
 
-import jakarta.persistence.*;
-import nandoshop.shop.user_service.domain.model.User;
-
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class EmailVerificationEntity {
