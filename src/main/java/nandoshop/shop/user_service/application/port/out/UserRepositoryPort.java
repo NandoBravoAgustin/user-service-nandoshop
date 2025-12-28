@@ -4,5 +4,8 @@ import nandoshop.shop.user_service.domain.model.User;
 
 public interface UserRepositoryPort {
     boolean existsByEmail(String email);
+
+    User findByEmail(String email);
+
     User save(User user);
 }

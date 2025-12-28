@@ -25,13 +25,13 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/support/welcome").permitAll()
-                        .requestMatchers("/api/v1/support/password-reset").permitAll()
+                        .requestMatchers("/api/v1/support/send-password-reset").permitAll()
                         .requestMatchers("/api/v1/support/verify-email").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
         return http.build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();

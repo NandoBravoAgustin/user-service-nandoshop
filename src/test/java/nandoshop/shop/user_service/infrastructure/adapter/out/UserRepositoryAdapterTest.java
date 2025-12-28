@@ -15,7 +15,7 @@ public class UserRepositoryAdapterTest {
         UserRepositoryAdapter adapter = new UserRepositoryAdapter(repository);
 
         User domainUser = new User("test@example.com", "encodedPass", "Nando");
-        UserEntity savedEntity = new UserEntity(1L, "test@example.com", "encodedPass", "Nando");
+        UserEntity savedEntity = new UserEntity(1L, "test@example.com", "encodedPass", "Nando", false);
 
         when(repository.save(any(UserEntity.class))).thenReturn(savedEntity);
 
