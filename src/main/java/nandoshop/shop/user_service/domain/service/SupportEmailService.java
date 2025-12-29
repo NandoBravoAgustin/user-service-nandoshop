@@ -6,6 +6,9 @@ import nandoshop.shop.user_service.application.port.in.useCase.SendSupportEmailU
 import nandoshop.shop.user_service.application.port.out.PasswordResetTokenRepositoryPort;
 import nandoshop.shop.user_service.application.port.out.UserRepositoryPort;
 import nandoshop.shop.user_service.domain.model.User;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import nandoshop.shop.user_service.domain.model.PasswordResetToken;
+import nandoshop.shop.user_service.domain.exception.InvalidTokenException;
 
 @Service
 public class SupportEmailService implements SendSupportEmailUseCase {
@@ -14,12 +17,16 @@ public class SupportEmailService implements SendSupportEmailUseCase {
     private final PasswordResetTokenRepositoryPort tokenRepositoryPort;
     private final EmailService emailService;
 
+    private final Argon2PasswordEncoder passwordEncoder;
+
     public SupportEmailService(UserRepositoryPort userRepositoryPort,
             PasswordResetTokenRepositoryPort tokenRepositoryPort,
-            EmailService emailService) {
+            EmailService emailService,
+            Argon2PasswordEncoder passwordEncoder) {
         this.userRepositoryPort = userRepositoryPort;
         this.tokenRepositoryPort = tokenRepositoryPort;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,5 +46,29 @@ public class SupportEmailService implements SendSupportEmailUseCase {
         String link = "http://localhost:3000/reset-password?token=" + token;
 
         emailService.sendPasswordResetEmail(to, user.getName(), link);
+    }
+
+    @Override
+    public void verifyPasswordResetToken(String token) {
+        PasswordResetToken resetToken = tokenRepositoryPort.findByToken(token);
+        if (resetToken == null) {
+            throw new InvalidTokenException("Token no encontrado");
+        }
+        resetToken.validate();
+    }
+
+    @Override
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken resetToken = tokenRepositoryPort.findByToken(token);
+        if (resetToken == null) {
+            throw new InvalidTokenException("Token no encontrado");
+        }
+        resetToken.validate();
+
+        User user = resetToken.getUser();
+        user.changePassword(passwordEncoder.encode(newPassword));
+        userRepositoryPort.save(user);
+
+        tokenRepositoryPort.update(resetToken.markAsUsed());
     }
 }
