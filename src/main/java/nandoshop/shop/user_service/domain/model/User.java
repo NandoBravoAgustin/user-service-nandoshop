@@ -9,8 +9,8 @@ public class User {
     private String name;
     private boolean emailVerified = false;
 
-    private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+
     // Para usuarios nuevos
     public User(String email, String password, String name) {
         validateEmail(email);
@@ -22,6 +22,7 @@ public class User {
         this.name = name;
         this.emailVerified = emailVerified;
     }
+
     // Para usuarios existentes
     public User(Long id, String email, String password, String name) {
         this.id = id;
@@ -48,9 +49,17 @@ public class User {
         }
     }
 
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getName() { return name; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public String getPasswordForPersistence() {
         return password;
@@ -58,5 +67,10 @@ public class User {
 
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    public void changePassword(String newPassword) {
+        validatePassword(newPassword);
+        this.password = newPassword;
     }
 }
